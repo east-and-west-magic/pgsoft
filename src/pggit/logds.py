@@ -44,7 +44,7 @@ class LogDS:
             # wait for next sync
             ######################
             print("Trying to reset repo to HEAD^ hard")
-            if git_utils.git_reset(rootdir=self.__backup_dir,commitid="HEAD^",hard=True):
+            if git_utils.git_reset(rootdir=self.__backup_dir):
                 print("Success")
             else:
                 print("Failed")
@@ -154,7 +154,7 @@ class LogDS:
             # wait for next sync
             ######################
             print("Trying to reset repo to HEAD^ hard")
-            if git_utils.git_reset(rootdir=self.__backup_dir,commitid="HEAD^",hard=True):
+            if git_utils.git_reset(rootdir=self.__backup_dir):
                 print("Success")
             else:
                 print("Failed")
