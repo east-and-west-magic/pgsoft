@@ -93,8 +93,7 @@ class LogDS:
             if str(e).startswith('Remote "origin" does not support the Git LFS locking API'):
                 git_utils.git_config(rootdir=self.__backup_dir,
                                      key="lfs.https://hf.co/datasets/hubei-hunan/logs.git/info/lfs.locksverify",
-                                     value="false",
-                                     domain=None)
+                                     value="false")
             print("pulling: failed")
             return False
 

@@ -72,19 +72,20 @@ def git_diff_content(rootdir:str, beforeId:str, afterId:str):
         print(f"Error occurred in git_diff_content: there is not a repository in {rootdir}")
         return None
         
-    cwd=os.getcwd()
+    cwd = os.getcwd()
     try:
         os.chdir(rootdir)
-        output=subprocess.check_output(["git","diff",beforeId,afterId]).decode('utf-8')
+        command = ["git", "diff", beforeId, afterId]
+        output = subprocess.check_output(command).decode('utf-8')
         os.chdir(cwd)
-        lines=output.replace("/",os.sep).splitlines()
-        result=dict[str,list[str]]()
-        filename=None
+        lines = output.replace("/", os.sep).splitlines()
+        result = dict[str, list[str]]()
+        filename = None
         for line in lines:
             if line.startswith("+"):
                 if line.startswith("+++"):
-                    filename=line[6:]
-                    result[filename]=[]
+                    filename = line[6:]
+                    result[filename] = []
                 else:
                     result[filename].append(line[1:])
         return result
@@ -93,47 +94,24 @@ def git_diff_content(rootdir:str, beforeId:str, afterId:str):
         os.chdir(cwd)
         return None
     
-def git_current_commitid(rootdir:str):
-    '''get the commit id that HEAD pointed'''
-    
-    if not os.path.exists(rootdir):
-        print("Error occurred in git_current_commitid: rootdir not exists")
-        return None
-    if not is_repo_root(rootdir):
-        print(f"Error occurred in git_current_commitid: there is not a repository in {rootdir}")
-        return None
-    cwd=os.getcwd()
-    try:
-        os.chdir(rootdir)
-        output=subprocess.check_output(["git","rev-parse","HEAD"]).decode('utf-8')
-        os.chdir(cwd)
-        return output
-    except Exception as e:
-        print(f"Error {type(e)} occurred in git_current_commitid: {e}")
-        os.chdir(cwd)
-        return None
 
-def git_config(rootdir:str,key:str,value:str,domain="--global"):
+def git_config(rootdir:str, key:str, value:str):
     '''set a configure value, default global'''
     if not os.path.exists(rootdir):
-        print("Error occurred in git_current_commitid: rootdir not exists")
+        print("Error occurred in git_config: rootdir not exists")
         return False
     if not is_repo_root(rootdir):
-        print(f"Error occurred in git_current_commitid: there is not a repository in {rootdir}")
+        print(f"Error occurred in git_config: there is not a repository in {rootdir}")
         return False
-    cwd=os.getcwd()
+    cwd = os.getcwd()
     try:
         os.chdir(rootdir)
-        command=['git','config']
-        if domain:
-            command+=[domain]
-        command+=[key]
-        command+=[value]
+        command = ['git', 'config', key, value]
         subprocess.call(command)
         os.chdir(cwd)
         return True
     except Exception as e:
-        print(f"Error {type(e)} occurred in git_current_commitid: {e}")
+        print(f"Error {type(e)} occurred in git_config: {e}")
         os.chdir(cwd)
         return False
 
