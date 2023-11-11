@@ -38,6 +38,10 @@ class Repo:
 
         Args:
             rootdir (str): the root directory of a repository
+
+        Returns:
+            Repo | None: normally return Repo object,
+                return None if the rootdir is not a repo
         """
         self.rootdir = rootdir
 
