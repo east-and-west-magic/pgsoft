@@ -187,7 +187,7 @@ class Repo:
             new["cur"] += 1
         return outp
 
-    def git_diff(self, beforeId: str, afterId: str, nameonly: bool = True):
+    def git_diff_all(self, beforeId: str, afterId: str, nameonly: bool = True):
         """get differences between two commit, from beforeId to afterId
 
         Args:
