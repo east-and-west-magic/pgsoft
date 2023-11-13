@@ -245,6 +245,23 @@ class Repo:
                 outp[filepath] = self.git_diff_file(filepath, beforeId, afterId)
         return outp
 
+    def git_commit(self, msg: str):
+        """commit the staged changes
+
+        Args:
+            msg (str): commit message
+
+        Returns:
+            bool: True if succeed
+        """
+        command = ["git", "commit", "-m", msg]
+        try:
+            subprocess.call(command, cwd=self.rootdir).decode("utf-8")
+            return True
+        except Exception as e:
+            print(f"[git_commit] error: {e}")
+            return False
+
     def get_head_hash(self):
         """get the commit id of HEAD pointer"""
         command = ["git", "rev-parse", "HEAD"]
