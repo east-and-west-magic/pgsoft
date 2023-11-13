@@ -1,0 +1,4 @@
+pytest
+huggingface_hub
+APScheduler
+datasets
