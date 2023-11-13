@@ -71,8 +71,8 @@ class Repo:
                 filelist.append(files)
             elif isinstance(files, Sequence):
                 for file in files:
-                    if not os.path.exists(files):
-                        print(f"[git_add] error: {files} not exists")
+                    if not os.path.exists(file):
+                        print(f"[git_add] error: {file} not exists")
                         return False
                     filelist.append(file)
             else:
@@ -83,7 +83,7 @@ class Repo:
                 return False
             command += filelist
         else:
-            command += [files]
+            command += ["."]
 
         try:
             subprocess.call(command, cwd=self.rootdir)
