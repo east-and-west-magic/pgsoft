@@ -105,10 +105,13 @@ class Repo:
             command = ["git", "add", "."]
             subprocess.call(command, cwd=self.rootdir)
             command = ["git", "reset", "--hard", commitid]
-            subprocess.call(command, cwd=self.rootdir)
-            return True
+            code = subprocess.call(command, cwd=self.rootdir)
+            if not code:
+                return True
+            print(f"[git_reset_hard] error({code}): already the first commit")
+            return False
         except Exception as e:
-            print(f"[git_reset] error: {e}")
+            print(f"[git_reset_hard] error: {e}")
             return False
 
     def git_diff_file(self, filepath: str, beforeId: str, afterId: str):
