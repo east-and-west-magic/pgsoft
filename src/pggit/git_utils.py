@@ -94,7 +94,11 @@ def git_diff_files(rootdir: str, beforeId: str, afterId: str):
 
     Returns:
         dict[str, str] | None: if succeed return a dict with
-            changed files' name as key and their status as value
+        changed files' name as key and their status as value
+        possible statuses are as following:
+        - D: deleted file
+        - M: modified file
+        - A: newly added file
     """
     if not os.path.exists(rootdir):
         print("[git_diff_files] error: rootdir not exists")
@@ -112,8 +116,9 @@ def git_diff_files(rootdir: str, beforeId: str, afterId: str):
         return None
     outp = {}
     for line in res:
-        status = line[0]
-        filename = line[1:].strip().strip('"')
+        line = line.split("\t")
+        status = line[0].strip()
+        filename = line[1].strip('" ')
         outp[filename] = status
     return outp
 
