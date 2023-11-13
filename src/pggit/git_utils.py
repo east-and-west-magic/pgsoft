@@ -8,7 +8,7 @@ from typing import Union
 import re
 
 
-def is_repo_root(path: str):
+def is_repo_root(path: str) -> bool:
     """check if the path is a root directory of a repository
 
     Args:
@@ -31,7 +31,7 @@ def is_repo_root(path: str):
     return False
 
 
-def git_reset(rootdir: str):
+def git_reset(rootdir: str) -> bool:
     """forcely reset the repository to HEAD^ version.
 
     Args:
@@ -66,6 +66,23 @@ def git_reset(rootdir: str):
         return False
 
 
+def git_config(rootdir: str, key: str, value: str) -> bool:
+    """set a configure value"""
+    if not os.path.exists(rootdir):
+        print("[git_config] error: rootdir not exists")
+        return False
+    if not is_repo_root(rootdir):
+        print(f"[git_config] error: {rootdir} is not a repo")
+        return False
+    try:
+        command = ["git", "config", key, value]
+        subprocess.call(command, cwd=rootdir)
+        return True
+    except Exception as e:
+        print(f"[git_config] error: {e}")
+        return False
+
+
 def git_diff_nameonly(rootdir: str, beforeId: str, afterId: str):
     """get changed file list between two commits, from beforeId to afterId
 
@@ -92,23 +109,6 @@ def git_diff_nameonly(rootdir: str, beforeId: str, afterId: str):
     except Exception as e:
         print(f"[git_diff] error: {e}")
         return None
-
-
-def git_config(rootdir: str, key: str, value: str):
-    """set a configure value"""
-    if not os.path.exists(rootdir):
-        print("[git_config] error: rootdir not exists")
-        return False
-    if not is_repo_root(rootdir):
-        print(f"[git_config] error: {rootdir} is not a repo")
-        return False
-    try:
-        command = ["git", "config", key, value]
-        subprocess.call(command, cwd=rootdir)
-        return True
-    except Exception as e:
-        print(f"[git_config] error: {e}")
-        return False
 
 
 def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
