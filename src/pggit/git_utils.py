@@ -31,93 +31,67 @@ def is_repo_root(path: str):
     return False
 
 
-def git_reset_hard(rootdir: str, commitid: str = "HEAD"):
-    """forcely reset the repository to a committed version.
+def git_reset(rootdir: str):
+    """forcely reset the repository to HEAD^ version.
 
     Args:
         rootdir: the root directory of a repository
-        commitid: a existed commit id
 
     Returns:
         bool: succeed or not
     """
     if not os.path.exists(rootdir):
-        print("[git_reset_hard] error: rootdir not exists")
+        print("[git_reset] error: rootdir not exists")
         return False
     if not is_repo_root(rootdir):
-        print(f"[git_reset_hard] error: {rootdir} is not a repo")
+        print(f"[git_reset] error: {rootdir} is not a repo")
         return False
 
     try:
         # stage all before reset
         command = ["git", "add", "."]
-        subprocess.call(command, cwd=rootdir)
+        code = subprocess.call(command, cwd=rootdir)
+        if code:
+            print(f"[git_reset] error: return code {code} while adding")
+            return False
         # reset
-        command = ["git", "reset", "--hard", commitid]
-        subprocess.call(command, cwd=rootdir)
+        command = ["git", "reset", "--hard", "HEAD^"]
+        code = subprocess.call(command, cwd=rootdir)
+        if code:
+            print(f"[git_reset] error: return code {code} while resetting")
+            return False
         return True
     except Exception as e:
-        print(f"[git_reset_hard]: {e}")
+        print(f"[git_reset_hard] error: {e}")
         return False
 
 
-def git_diff_all(rootdir: str, beforeId: str, afterId: str, nameonly: bool = True):
-    """get differences between two commit, from beforeId to afterId
+def git_diff_nameonly(rootdir: str, beforeId: str, afterId: str):
+    """get changed file list between two commits, from beforeId to afterId
 
     Args:
         rootdir (str): the root directory of the repository
         beforeId (str): the commit id earlier committed
         afterId (str): the commit id later committed
-        nameonly (bool, optional): whether only get names of files in differences,
-        or get detailed diff info. Defaults to True.
 
     Returns:
-        (list | dict):
-    - if succeed,
-        - if nameonly is True: return files changed(relative pathes) as a list
-        - else: return a dict with structure as following:
-
-    ```
-    {
-        "filename1":{
-            "newfile": "filename",    #this is a new file
-            "delfile": "filename",    # this file was deleted
-            "rename": "new filename", # the key "filename" is an old name
-            "delline": {lineindex1:"linestring1",
-                        ...
-                        lineindexn:"linestringn"}, # deleted lines
-            "addline": {lineindex1:"linestring1",
-                        ...
-                        lineindexn:"linestringn"},  # added lines
-            # not all these keys are included here, depending on diff info
-        }
-        ...
-    }
-    ```
-    - if failed, return None
+        list | None: if succeed return a list including changed files' name
     """
     if not os.path.exists(rootdir):
-        print("[git_diff_all] error: rootdir not exists")
+        print("[git_diff] error: rootdir not exists")
         return None
     if not is_repo_root(rootdir):
-        print(f"[git_diff_all] error: {rootdir} is not a repo")
+        print(f"[git_diff] error: {rootdir} is not a repo")
         return None
 
     try:
-        command = ["git", "diff", beforeId, afterId]
-        command += ["--name-only"] if nameonly else []
+        command = ["git", "diff", beforeId, afterId, "--name-only"]
         res = subprocess.check_output(command, cwd=rootdir).decode("utf-8")
         res = res.replace("/", os.sep).splitlines()
+        return res
     except Exception as e:
         print(f"[git_diff] error: {e}")
         return None
-    if nameonly:
-        outp = res
-    else:
-        outp = {}
-        for filepath in res:
-            outp[filepath] = git_diff_file(filepath, beforeId, afterId)
-    return outp
 
 
 def git_config(rootdir: str, key: str, value: str):
@@ -137,8 +111,8 @@ def git_config(rootdir: str, key: str, value: str):
         return False
 
 
-def git_diff_file(rootdir: str, filepath: str, beforeId: str, afterId: str):
-    """get diff info of a single file between two commits
+def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
+    """get difference content of a single file between two commits
 
     Args:
         beforeId (str): the commit id earlier committed
@@ -164,10 +138,10 @@ def git_diff_file(rootdir: str, filepath: str, beforeId: str, afterId: str):
     - if failed, return None
     """
     if not os.path.exists(rootdir):
-        print("[git_diff_file] error: rootdir not exists")
+        print("[git_diff_content] error: rootdir not exists")
         return None
     if not is_repo_root(rootdir):
-        print(f"[git_diff_file] error: {rootdir} is not a repo")
+        print(f"[git_diff_content] error: {rootdir} is not a repo")
         return None
 
     command = ["git", "diff", beforeId, afterId, filepath]
@@ -175,7 +149,7 @@ def git_diff_file(rootdir: str, filepath: str, beforeId: str, afterId: str):
         res = subprocess.check_output(command, cwd=rootdir).decode("utf-8")
         res = res.replace("/", os.sep).splitlines()
     except Exception as e:
-        print(f"[git_diff_file] error: {e}")
+        print(f"[git_diff_content] error: {e}")
         return None
 
     outp = dict[str, Union[str, dict[int, str]]]()
