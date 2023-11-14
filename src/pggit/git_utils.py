@@ -166,7 +166,7 @@ def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
         if line.startswith("@@"):
             tmp = line.split()
             oldcur = int(tmp[1].strip("-").split(",")[0])
-            newcur = int(tmp[2].strip("-").split(",")[0])
+            newcur = int(tmp[2].strip("+").split(",")[0])
             continue
         if line.startswith("---"):
             continue
