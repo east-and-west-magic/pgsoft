@@ -168,11 +168,15 @@ def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
             oldcur = int(tmp[1].strip("-").split(",")[0])
             newcur = int(tmp[2].strip("-").split(",")[0])
             continue
+        if line.startswith("---"):
+            continue
         if line.startswith("-"):
             if "delline" not in outp:
                 outp["delline"] = {}
             outp["delline"][oldcur] = line[1:]
             oldcur += 1
+            continue
+        if line.startswith("+++"):
             continue
         if line.startswith("+"):
             if "addline" not in outp:
