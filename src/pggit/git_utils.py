@@ -81,7 +81,7 @@ def git_config(rootdir: str, key: str, value: str) -> bool:
         return False
 
 
-def git_diff_files(rootdir: str, beforeId: str, afterId: str):
+def git_diff_files(rootdir: str, beforeId: str, afterId: str) -> dict[str, str] | None:
     """get changed files' name and their status between two commits,
         from beforeId to afterId
 
@@ -121,7 +121,9 @@ def git_diff_files(rootdir: str, beforeId: str, afterId: str):
     return outp
 
 
-def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
+def git_diff_content(
+    rootdir: str, filepath: str, beforeId: str, afterId: str
+) -> tuple[bool, dict[int, str], dict[int, str]]:
     """get difference content of a single file between two commits
 
     Args:
@@ -129,27 +131,20 @@ def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
         afterId (str): the commit id later committed
 
     Returns:
-    - if succeed,return a dict with structure as following:
-
-    ```
-    {
-        "delline": {lineindex1:"linestring1",
-                    ...
-                    lineindexn:"linestringn"}, # deleted lines
-        "addline": {lineindex1:"linestring1",
-                    ...
-                    lineindexn:"linestringn"},  # added lines
-        # not all these keys are included here, depending on diff info
-    }
-    ```
-    - if failed, return None
+        tuple[res,added,removed]
+        res: bool, True if succeed
+        added: dict[int,str], added lines in modified file
+        removed: dict[int,str], removed lines in modified file
     """
+    added = dict[int, str]()
+    removed = dict[int, str]()
+
     if not os.path.exists(rootdir):
         print("[git_diff_content] error: rootdir not exists")
-        return None
+        return False, added, removed
     if not is_repo_root(rootdir):
         print(f"[git_diff_content] error: {rootdir} is not a repo")
-        return None
+        return False, added, removed
 
     command = ["git", "diff", beforeId, afterId, filepath]
     try:
@@ -157,11 +152,12 @@ def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
         res = res.replace("/", os.sep).splitlines()
     except Exception as e:
         print(f"[git_diff_content] error: {e}")
-        return None
+        return False, added, removed
 
-    outp = dict[str, dict[int, str]]()
     oldcur = 1
     newcur = 1
+    added = dict[int, str]()
+    removed = dict[int, str]()
     for line in res:
         if line.startswith("@@"):
             tmp = line.split()
@@ -170,20 +166,16 @@ def git_diff_content(rootdir: str, filepath: str, beforeId: str, afterId: str):
             continue
         if line.startswith("---"):
             continue
-        if line.startswith("-"):
-            if "delline" not in outp:
-                outp["delline"] = {}
-            outp["delline"][oldcur] = line[1:]
-            oldcur += 1
-            continue
         if line.startswith("+++"):
             continue
+        if line.startswith("-"):
+            removed[oldcur] = line[1:]
+            oldcur += 1
+            continue
         if line.startswith("+"):
-            if "addline" not in outp:
-                outp["addline"] = {}
-            outp["addline"][newcur] = line[1:]
+            added[newcur] = line[1:]
             newcur += 1
             continue
         oldcur += 1
         newcur += 1
-    return outp
+    return True, added, removed

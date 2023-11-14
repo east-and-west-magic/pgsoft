@@ -103,14 +103,10 @@ def test_git_diff_content():
 
     add_all(rootdir)
     commit(rootdir, filename)
-    res = git.git_diff_content(rootdir, filename, "HEAD^", "HEAD")
-    assert "delline" in res
-    assert "addline" in res
-
-    dellines = res["delline"]
-    addlines = res["addline"]
-    assert dellines == {51: "line51", 61: "line61", 71: "line71"}
-    assert addlines == {
+    res, added, removed = git.git_diff_content(rootdir, filename, "HEAD^", "HEAD")
+    assert res
+    assert added == {51: "line51", 61: "line61", 71: "line71"}
+    assert removed == {
         51: "added line1",
         61: "added line2",
         71: "added line3",
