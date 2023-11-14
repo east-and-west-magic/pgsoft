@@ -4,8 +4,6 @@ providing some tools to manage repository
 
 import os
 import subprocess
-from typing import Union
-import re
 
 
 def is_repo_root(path: str) -> bool:
