@@ -3,6 +3,9 @@ Company Python repository
 
 ## pip install from github
 ```shell
+pip install git+https://<token>@github.com/east-and-west-magic/pgsoft.git
+pip install git+https://<token>@github.com/east-and-west-magic/pgsoft.git@6107eaf63ab6d1b6f642deb8f014068d26c981a4
+pip install git+ssh://git@github.com/east-and-west-magic/pgsoft.git
 pip install git+ssh://git@github.com/east-and-west-magic/pgsoft.git@6107eaf63ab6d1b6f642deb8f014068d26c981a4
 ```
 
