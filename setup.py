@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 requirements = []
 setup(
     name="pgsoft",
-    version="1.0",
+    version="v0.2-beta.1",
     author="Beracles",
     license="MIT",
     url="git@github.com:east-and-west-magic/pgsoft.git",
