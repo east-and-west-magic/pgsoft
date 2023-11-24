@@ -81,7 +81,9 @@ def git_config(rootdir: str, key: str, value: str) -> bool:
         return False
 
 
-def git_diff_files(rootdir: str, beforeId: str, afterId: str) -> dict[str, str] | None:
+def git_diff_filenames(
+    rootdir: str, beforeId: str, afterId: str
+) -> dict[str, str] | None:
     """get changed files' name and their status between two commits,
         from beforeId to afterId
 
@@ -99,10 +101,10 @@ def git_diff_files(rootdir: str, beforeId: str, afterId: str) -> dict[str, str] 
         - A: newly added file
     """
     if not os.path.exists(rootdir):
-        print("[git_diff_files] error: rootdir not exists")
+        print("[git_diff_filenames] error: rootdir not exists")
         return None
     if not is_repo_root(rootdir):
-        print(f"[git_diff_files] error: {rootdir} is not a repo")
+        print(f"[git_diff_filenames] error: {rootdir} is not a repo")
         return None
 
     try:
@@ -110,7 +112,7 @@ def git_diff_files(rootdir: str, beforeId: str, afterId: str) -> dict[str, str] 
         res = subprocess.check_output(command, cwd=rootdir).decode("utf-8")
         res = res.replace("/", os.sep).splitlines()
     except Exception as e:
-        print(f"[git_diff_files] error: {e}")
+        print(f"[git_diff_filenames] error: {e}")
         return None
     outp = {}
     for line in res:
