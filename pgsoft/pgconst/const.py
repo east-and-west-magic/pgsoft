@@ -1,4 +1,13 @@
-#######################
+"""
+Constants that are used in several repos.
+
+"""
+
+####################################
+# from pgsoft.pgconst import const
+#
+# print(const.service_list)
+####################################
 
 service_list = [
     "games",
