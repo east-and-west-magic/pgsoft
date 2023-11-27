@@ -1,7 +1,7 @@
 import pytest
 import os
 import subprocess
-import git_utils as git
+from pgsoft.pggit import git_utils as git
 
 
 rootdir = "test"
@@ -115,7 +115,7 @@ def test_git_diff_content():
     }
 
 
-def test_git_diff_files():
+def test_git_diff_filenames():
     filelist = [
         "git_diff_files_modified.txt",
         "git_diff_files_deleted.txt",
@@ -144,7 +144,7 @@ def test_git_diff_files():
     add_all(rootdir)
     commit(rootdir, "git_diff_files operate")
 
-    res = git.git_diff_files(rootdir, "HEAD^", "HEAD")
+    res = git.git_diff_filenames(rootdir, "HEAD^", "HEAD")
     assert res is not None
     assert set(res) == {
         "git_diff_files_modified.txt",
