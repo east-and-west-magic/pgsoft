@@ -4,7 +4,7 @@ import subprocess
 from pgsoft.pggit import git_utils as git
 
 
-rootdir = "test"
+rootdir = "testrepo"
 
 
 def generate_file(filename: str, lines: list[str] = None):
