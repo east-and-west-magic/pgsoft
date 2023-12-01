@@ -15,6 +15,7 @@ service_list = [
     "tokenization",
     "upload game",
     "download game",
+    "list games",
 ]
 
 game_list = [
