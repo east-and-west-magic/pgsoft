@@ -3,8 +3,8 @@ Company Python repository
 
 ## pip install from github
 ```shell
-pip install git+https://github.com/east-and-west-magic/pgsoft.git@tag-2023-11-24-a
-pip install git+ssh://git@github.com/east-and-west-magic/pgsoft.git@tag-2023-11-24-a
+pip install git+https://github.com/east-and-west-magic/pgsoft.git
+pip install git+ssh://git@github.com/east-and-west-magic/pgsoft.git
 ```
 
 https://adamj.eu/tech/2019/03/11/pip-install-from-a-git-repository/
