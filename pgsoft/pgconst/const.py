@@ -3,11 +3,11 @@ Constants that are used in several repos.
 
 """
 
-####################################
-# from pgsoft.pgconst import const
+########################################################
+# from pgsoft.pgconst.const import service_list
 #
-# print(const.service_list)
-####################################
+# print(service_list)
+########################################################
 
 service_list = [
     "games",
