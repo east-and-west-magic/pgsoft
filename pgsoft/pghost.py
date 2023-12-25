@@ -1,5 +1,5 @@
 """
-corresponding spacenames used in the three pipelines:
+hostnames used in the three pipelines:
 - b_demo_hf: the production pipeline 1
 - pgdemo2: the production pipeline 2
 - pgdemo_dev: the development pipeline
