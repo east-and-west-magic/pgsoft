@@ -12,6 +12,6 @@ setup(
         "tzdata", 
         "python-dateutil", 
         "gradio_client",
-    ]
+    ],
     description="""General Python tools""",
 )
