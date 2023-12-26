@@ -12,6 +12,7 @@ setup(
         "tzdata", 
         "python-dateutil", 
         "gradio_client",
+        "huggingface_hub",
     ],
     description="""General Python tools""",
 )
