@@ -1,5 +1,6 @@
 *.ipynb
 .vscode
+*.json
 test
 
 # Byte-compiled / optimized / DLL files

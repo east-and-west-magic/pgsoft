@@ -1,3 +1,4 @@
 python-dateutil
+gradio_client
 pytest
 wheel
