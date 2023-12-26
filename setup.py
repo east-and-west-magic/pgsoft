@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-requirements = ["tzdata", "python-dateutil", "gradio_client"]
+install_requires = ["tzdata", "python-dateutil", "gradio_client"]
 setup(
     name="pgsoft",
     version="v0.1.0",  # do not modify
