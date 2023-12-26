@@ -7,7 +7,7 @@ hostnames used in the three pipelines:
 from gradio_client import Client
 
 
-def NewClient(spacename: str, token: str):
+def createGradioClient(spacename: str, token: str):
     """Create a gradio client with the given spacename and token.
 
     Args:
@@ -23,19 +23,19 @@ def NewClient(spacename: str, token: str):
 
 
 ais = {
-    "b_demo_hf": "stevez-ai",
+    "pgdemo": "stevez-ai",
     "pgdemo2": "stevez-ai2",
     "pgdemo_dev": "stevez-ai-dev",
 }
 
 clouddisks = {
-    "b_demo_hf": "pgsoft-clouddisk",
+    "pgdemo": "pgsoft-clouddisk",
     "pgdemo2": "pgsoft-clouddisk",
     "pgdemo_dev": "pgsoft-clouddisk-dev",
 }
 
 clients = {
-    "b_demo_hf": "stevez-b-demo-hf",
+    "pgdemo": "stevez-b-demo-hf",
     "pgdemo2": "pgsoft-pgdemo2",
     "pgdemo_dev": "pgsoft-pgdemo-dev",
 }

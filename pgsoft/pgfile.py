@@ -10,7 +10,7 @@ def upload(
     repo_id: str,
     repo_type: str,
     token: str,
-    commit_message: str,
+    commit_message: str = None,
 ) -> bool:
     """upload file to repository on huggingface hub
 
@@ -61,9 +61,8 @@ def download(
     Returns:
         str: full local path of the file
     """
-    items = remotepath.split(os.sep)
-    filename = items[-1]
-    subfolder = os.sep.join(items[:-1])
+    filename = os.path.basename(remotepath)
+    subfolder = os.path.dirname(remotepath)
     try:
         localpath = api.hf_hub_download(
             repo_id=repo_id,
