@@ -1,5 +1,5 @@
 # pgsoft
-Company Python repository
+A Python library used by our backend development
 
 ## pip install from github
 ```shell
