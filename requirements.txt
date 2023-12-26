@@ -1,4 +1,5 @@
-python-dateutil
 gradio_client
+huggingface_hub
 pytest
+python-dateutil
 wheel
