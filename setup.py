@@ -9,10 +9,10 @@ setup(
     url="git@github.com:east-and-west-magic/pgsoft.git",
     packages=find_packages(),
     install_requires = [
-        "tzdata", 
-        "python-dateutil", 
         "gradio_client",
+        "python-dateutil", 
         "huggingface_hub",
+        "tzdata", 
     ],
-    description="""General Python tools""",
+    description="A Python library used by our backend development",
 )
