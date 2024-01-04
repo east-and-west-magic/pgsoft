@@ -23,19 +23,19 @@ def createGradioClient(spacename: str, token: str):
 
 
 ais = {
-    "pgdemo": "stevez-ai",
+    "b_demo_hf": "stevez-ai",
     "pgdemo2": "stevez-ai2",
     "pgdemo_dev": "stevez-ai-dev",
 }
 
 clouddisks = {
-    "pgdemo": "pgsoft-clouddisk",
+    "b_demo_hf": "pgsoft-clouddisk",
     "pgdemo2": "pgsoft-clouddisk",
     "pgdemo_dev": "pgsoft-clouddisk-dev",
 }
 
 clients = {
-    "pgdemo": "stevez-b-demo-hf",
+    "b_demo_hf": "stevez-b-demo-hf",
     "pgdemo2": "pgsoft-pgdemo2",
     "pgdemo_dev": "pgsoft-pgdemo-dev",
 }
